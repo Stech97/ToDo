@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Controls;
+using System.Globalization;
+using System.Linq;
 
 namespace ToDo
 {
@@ -13,8 +15,10 @@ namespace ToDo
         public MainWindow()
         {
             InitializeComponent();
-            InitMonths();
+            InitStaticData();
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e) => InitData();
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -24,7 +28,7 @@ namespace ToDo
 
         private void LblNote_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            txtNote.Focus();
+            TxtNote.Focus();
         }
 
         private void LblTime_MouseDown(object sender, MouseButtonEventArgs e)
@@ -34,10 +38,10 @@ namespace ToDo
 
         private void TxtNote_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtNote.Text) && txtNote.Text.Length > 0)
-                lblNote.Visibility = Visibility.Collapsed;
+            if (!string.IsNullOrEmpty(TxtNote.Text) && TxtNote.Text.Length > 0)
+                LblNote.Visibility = Visibility.Collapsed;
             else
-                lblNote.Visibility = Visibility.Visible;
+                LblNote.Visibility = Visibility.Visible;
         }
 
         private void TxtTime_TextChanged(object sender, TextChangedEventArgs e)
@@ -49,8 +53,26 @@ namespace ToDo
         }
 
 
-        private void InitMonths()
+        private void InitStaticData()
         {
+            for (int y = 2020; y <= 2024; y++)
+            {
+
+                var but = new Button
+                {
+                    Content = y,
+                    Style = (Style)CustomResources["button"]
+                };
+
+                if (DateTime.Now.Year == y)
+                {
+                    but.Foreground = new SolidColorBrush(Color.FromRgb(13, 110, 253));
+                    but.FontWeight = FontWeights.SemiBold;
+                    but.FontSize = 24;
+                }
+                Years.Children.Add(but);
+            }
+
             for (int m = 1; m <= 12; m++)
             {
 
@@ -70,5 +92,15 @@ namespace ToDo
             }
         }
 
+        private void InitData()
+        {
+            string Month = DateTime.Now.ToString("MMMM", CultureInfo.CurrentCulture);
+
+            CurrentMonth.Text = string.Concat(Month.First().ToString().ToUpper(), Month.AsSpan(1));
+            SelectedDay.Text = DateTime.Now.Day.ToString();
+            SelectedDayOfWeek.Text = DateTime.Now.ToString("dddd", CultureInfo.CurrentCulture);
+            SelectedMonth.Text = string.Concat(Month.First().ToString().ToUpper(), Month.AsSpan(1));
+            SelectedYear.Text = DateTime.Now.Year.ToString() + " год";
+        }
     }
 }

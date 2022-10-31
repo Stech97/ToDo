@@ -6,23 +6,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:us="clr-namespace:ToDo.UserControls"
         FontFamily="Trebuchet MS" mc:Ignorable="d" WindowStartupLocation="CenterScreen" WindowStyle="None" 
-        AllowsTransparency="True" Background="Transparent" Height="590" Width="900">
+        AllowsTransparency="True" Background="Transparent" Height="590" Width="900" Loaded="Window_Loaded">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="323*"/>
+            <ColumnDefinition Width="577*"/>
+        </Grid.ColumnDefinitions>
         <!--Grid Background-->
-        <Grid>
+        <Grid Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1.2*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="478*"/>
+                <ColumnDefinition Width="13*"/>
+                <ColumnDefinition Width="409*"/>
             </Grid.ColumnDefinitions>
 
-            <Border CornerRadius="20 0 0 20" Background="#FEFEFE"/>
+            <Border CornerRadius="20 0 0 20" Background="#FEFEFE" Grid.ColumnSpan="3" Margin="0,0,409,0"/>
 
-            <Border CornerRadius="0 20 20 0" MouseDown="Border_MouseDown" Grid.Column="1" Background="#0d6efd"/>
+            <Border CornerRadius="0 20 20 0" MouseDown="Border_MouseDown" Grid.Column="2" Background="#0d6efd"/>
         </Grid>
 
         <!--Grid Controls-->
-        <Grid>
+        <Grid Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1.2*"/>
                 <ColumnDefinition Width="*"/>
@@ -35,11 +40,7 @@
                         <fa:ImageAwesome Icon="AngleLeft" Style="{StaticResource angle}"/>
                     </Button>
 
-                    <Button Content="2020" Style="{StaticResource button}"/>
-                    <Button Content="2021" Style="{StaticResource button}"/>
-                    <Button Content="2022" Style="{StaticResource button}" Foreground="#0d6efd" FontSize="24"/>
-                    <Button Content="2023" Style="{StaticResource button}"/>
-                    <Button Content="2024" Style="{StaticResource button}"/>
+                    <DockPanel x:Name="Years"/>
 
                     <Button Style="{StaticResource button}">
                         <fa:ImageAwesome Icon="AngleRight" Style="{StaticResource angle}"/>
@@ -51,7 +52,7 @@
 
                 <Separator Height="0.8" Background="#CACACA" Margin="30 10"/>
 
-                <TextBlock Text="November" Foreground="#0d6efd" FontSize="24" TextAlignment="Center" FontWeight="SemiBold" Margin="0 15 0 20"/>
+                <TextBlock x:Name="CurrentMonth" Foreground="#0d6efd" FontSize="24" TextAlignment="Center" FontWeight="SemiBold" Margin="0 15 0 20"/>
 
                 <Calendar CalendarItemStyle="{DynamicResource CalendarCalendarItemStyle1}" CalendarDayButtonStyle="{DynamicResource CalendarCalendarDayButtonStyle1}" Style="{DynamicResource CalendarStyle1}"/>
             </StackPanel>
@@ -59,11 +60,12 @@
             <StackPanel Grid.Column="1">
                 <!--Titles-->
                 <StackPanel Margin="30 45 30 10" Orientation="Horizontal">
-                    <TextBlock Text="16" FontSize="50" Foreground="#FFFFFF"/>
+                    <TextBlock x:Name="SelectedDay" FontSize="50" Foreground="#FFFFFF"/>
 
                     <StackPanel Grid.Column="1" Margin="10 0 0 0" VerticalAlignment="Center">
-                        <TextBlock Text="November" Foreground="#FFFFFF" FontSize="24"/>
-                        <TextBlock Text="Monday" Foreground="#FFF" FontSize="14"/>
+                        <TextBlock x:Name="SelectedMonth" Foreground="#FFF" FontSize="24"/>
+                        <TextBlock x:Name="SelectedYear" Foreground="#FFF" FontSize="24"/>
+                        <TextBlock x:Name="SelectedDayOfWeek" Foreground="#FFF" FontSize="14"/>
                     </StackPanel>
 
                     <Button Style="{StaticResource buttonBig}" Margin="112 0 5 0">
@@ -93,8 +95,8 @@
                                 </Grid.ColumnDefinitions>
 
                                 <fa:ImageAwesome Icon="Pencil" Width="15" Height="15" Foreground="#EBA5BB"/>
-                                <TextBlock x:Name="lblNote" MouseDown="LblNote_MouseDown" Text="Add Note" Style="{StaticResource textHint}"/>
-                                <TextBox Name="txtNote" TextChanged="TxtNote_TextChanged" Style="{StaticResource textBox}"/>
+                                <TextBlock x:Name="LblNote" MouseDown="LblNote_MouseDown" Text="Add Note" Style="{StaticResource textHint}"/>
+                                <TextBox Name="TxtNote" TextChanged="TxtNote_TextChanged" Style="{StaticResource textBox}"/>
                             </Grid>
 
                             <Separator Margin="0 12 0 11" Background="#0d6efd" Height="0.8"/>
