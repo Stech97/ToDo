@@ -47,20 +47,7 @@
                 </StackPanel>
 
                 <!--Month Selection-->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="1" Style="{StaticResource buttonMonth}"/>
-                    <Button Content="2" Style="{StaticResource buttonMonth}"/>
-                    <Button Content="3" Style="{StaticResource buttonMonth}"/>
-                    <Button Content="4" Style="{StaticResource buttonMonth}"/>
-                    <Button Content="5" Style="{StaticResource buttonMonth}"/>
-                    <Button Content="6" Style="{StaticResource buttonMonth}"/>
-                    <Button Content="7" Style="{StaticResource buttonMonth}"/>
-                    <Button Content="8" Style="{StaticResource buttonMonth}"/>
-                    <Button Content="9" Style="{StaticResource buttonMonth}"/>
-                    <Button Content="10" Style="{StaticResource buttonMonth}"/>
-                    <Button Content="11" Style="{StaticResource buttonMonth}" Foreground="#0d6efd" FontWeight="SemiBold"/>
-                    <Button Content="12" Style="{StaticResource buttonMonth}"/>
-                </StackPanel>
+                <StackPanel x:Name="Months" Orientation="Horizontal" HorizontalAlignment="Center"/>
 
                 <Separator Height="0.8" Background="#CACACA" Margin="30 10"/>
 
@@ -106,8 +93,8 @@
                                 </Grid.ColumnDefinitions>
 
                                 <fa:ImageAwesome Icon="Pencil" Width="15" Height="15" Foreground="#EBA5BB"/>
-                                <TextBlock x:Name="lblNote" MouseDown="lblNote_MouseDown" Text="Add Note" Style="{StaticResource textHint}"/>
-                                <TextBox Name="txtNote" TextChanged="txtNote_TextChanged" Style="{StaticResource textBox}"/>
+                                <TextBlock x:Name="lblNote" MouseDown="LblNote_MouseDown" Text="Add Note" Style="{StaticResource textHint}"/>
+                                <TextBox Name="txtNote" TextChanged="TxtNote_TextChanged" Style="{StaticResource textBox}"/>
                             </Grid>
 
                             <Separator Margin="0 12 0 11" Background="#0d6efd" Height="0.8"/>
@@ -119,8 +106,8 @@
                                 </Grid.ColumnDefinitions>
 
                                 <fa:ImageAwesome Icon="Bell" Width="15" Height="15" Foreground="#EBA5BB"/>
-                                <TextBlock x:Name="lblTime" MouseDown="lblTime_MouseDown" Text="_ _ : _ _  -  _ _ : _ _" Style="{StaticResource textHint}"/>
-                                <TextBox Name="txtTime" TextChanged="txtTime_TextChanged" Style="{StaticResource textBox}"/>
+                                <TextBlock x:Name="LblTime" MouseDown="LblTime_MouseDown" Text="_ _ : _ _  -  _ _ : _ _" Style="{StaticResource textHint}"/>
+                                <TextBox Name="TxtTime" TextChanged="TxtTime_TextChanged" Style="{StaticResource textBox}"/>
                             </Grid>
 
                         </StackPanel>
