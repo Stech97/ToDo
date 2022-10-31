@@ -92,7 +92,7 @@
 
 
     <Style x:Key="CalendarCalendarItemStyle1" TargetType="{x:Type CalendarItem}">
-        <Setter Property="Margin" Value="0,3,0,3"/>
+        <Setter Property="Margin" Value="0,5,0,5"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CalendarItem}">
