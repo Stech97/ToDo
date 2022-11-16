@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Models;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -6,22 +7,24 @@ namespace ToDo.UserControls
 {
     public partial class Item : UserControl
     {
-        public Item()
+        public ItemVM ItemVM { get; set; }
+
+        public Item(ItemVM itemVM)
         {
+            ItemVM = itemVM;
             InitializeComponent();
         }
 
-
         public string Title
         {
-            get 
-            { 
-                return (string)GetValue(TitleProperty); 
+            get
+            {
+                return (string)GetValue(TitleProperty);
             }
 
-            set 
-            { 
-                SetValue(TitleProperty, value); 
+            set
+            {
+                SetValue(TitleProperty, value);
             }
         }
 
@@ -30,14 +33,14 @@ namespace ToDo.UserControls
 
         public string Time
         {
-            get 
-            { 
-                return (string)GetValue(TimeProperty); 
+            get
+            {
+                return (string)GetValue(TimeProperty);
             }
 
-            set 
+            set
             {
-                SetValue(TimeProperty, value); 
+                SetValue(TimeProperty, value);
             }
         }
 
@@ -46,14 +49,14 @@ namespace ToDo.UserControls
 
         public SolidColorBrush Color
         {
-            get 
-            { 
-                return (SolidColorBrush)GetValue(ColorProperty); 
+            get
+            {
+                return (SolidColorBrush)GetValue(ColorProperty);
             }
 
-            set 
+            set
             {
-                SetValue(ColorProperty, value); 
+                SetValue(ColorProperty, value);
             }
         }
 
@@ -62,14 +65,14 @@ namespace ToDo.UserControls
 
         public FontAwesome.WPF.FontAwesomeIcon Icon
         {
-            get 
-            { 
-                return (FontAwesome.WPF.FontAwesomeIcon)GetValue(IconProperty); 
+            get
+            {
+                return (FontAwesome.WPF.FontAwesomeIcon)GetValue(IconProperty);
             }
 
-            set 
-            { 
-                SetValue(IconProperty, value); 
+            set
+            {
+                SetValue(IconProperty, value);
             }
         }
 
@@ -78,14 +81,14 @@ namespace ToDo.UserControls
 
         public FontAwesome.WPF.FontAwesomeIcon IconBell
         {
-            get 
-            { 
-                return (FontAwesome.WPF.FontAwesomeIcon)GetValue(IconBellProperty); 
+            get
+            {
+                return (FontAwesome.WPF.FontAwesomeIcon)GetValue(IconBellProperty);
             }
 
-            set 
-            { 
-                SetValue(IconBellProperty, value); 
+            set
+            {
+                SetValue(IconBellProperty, value);
             }
         }
 

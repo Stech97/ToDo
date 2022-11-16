@@ -14,12 +14,18 @@
 
   <ItemGroup>
     <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
     <PackageReference Include="Notifications.Wpf.Core" Version="1.4.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DBRepository\DBRepository.csproj" />
+    <ProjectReference Include="..\ToDoBL\ToDoBL.csproj" />
+    <ProjectReference Include="..\ToDoRepositories\ToDoRepositories.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ToDoBL.Interface;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Globalization;
@@ -14,15 +15,18 @@ namespace ToDo
     {
         private readonly ResourceDictionary CustomResources = new() { Source = new Uri("pack://application:,,,/Resources.xaml") };
         private readonly DispatcherTimer DispatcherTimer;
-        public MainWindow()
+        private readonly IItemsService _itemsService;
+
+        public MainWindow(IItemsService itemsService)
         {
+            _itemsService = itemsService;
             InitializeComponent();
             InitStaticData();
             InitData();
-            DispatcherTimer = new DispatcherTimer();
-            DispatcherTimer.Tick += new EventHandler(DispatcherTimer_Tick);
-            DispatcherTimer.Interval = new TimeSpan(0,0,30);
-            DispatcherTimer.Start();
+            //DispatcherTimer = new DispatcherTimer();
+            //DispatcherTimer.Tick += new EventHandler(DispatcherTimer_Tick);
+            //DispatcherTimer.Interval = new TimeSpan(0, 0, 30);
+            //DispatcherTimer.Start();
         }
 
         private async void DispatcherTimer_Tick(object sender, EventArgs e)
@@ -117,7 +121,21 @@ namespace ToDo
             var button = (Button)sender;
             var CurentDate = Calendar.SelectedDate.GetValueOrDefault(DateTime.Now);
             CurentDate = CurentDate.AddMonths((int)button.Content - CurentDate.Month);
-            Calendar.SelectedDate = CurentDate;
+            Calendar.SelectedDate = CurentDate; 
+        }
+
+        private async void AddItem_Click(object sender, RoutedEventArgs e)
+        {
+            var Note = TxtNote.Text;
+            var Time = TxtTime.Text;
+            var CurentDate = Calendar.SelectedDate.GetValueOrDefault(DateTime.Now);
+            var IsAdd = await _itemsService.AddItemAsync(Note, Time, CurentDate);
+
+            if (IsAdd)
+                GetItems(CurentDate);
+            else
+                MessageBox.Show("При добавлении заметки возникли ошибки", "Ошибка при добавление заметки", MessageBoxButton.OK);
+
         }
 
 
@@ -172,10 +190,12 @@ namespace ToDo
             SelectedDayOfWeek.Text = DateTime.Now.ToString("dddd", CultureInfo.CurrentCulture);
             SelectedMonth.Text = string.Concat(Month.First().ToString().ToUpper(), Month.AsSpan(1));
             SelectedYear.Text = DateTime.Now.Year.ToString() + " год";
+            GetItems(DateTime.Now);
         }
 
         private void ChangeDate(DateTime dateTime)
         {
+            GetItems(dateTime);
             string Month = dateTime.ToString("MMMM", CultureInfo.CurrentCulture);
 
             CurrentMonth.Text = string.Concat(Month.First().ToString().ToUpper(), Month.AsSpan(1));
@@ -204,6 +224,23 @@ namespace ToDo
 
             ButtonYears.ToList().ForEach(x => x.Foreground = new SolidColorBrush(Color.FromRgb(186, 186, 186)));
             ButtonYears.FirstOrDefault(x => (int)x.Content == dateTime.Year).Foreground = new SolidColorBrush(Color.FromRgb(13, 110, 253));
+        }
+
+        private async void GetItems(DateTime dateTime)
+        {
+            Items.Children.Clear();
+            var ItemsVM = await _itemsService.GetItemsByDateAsync(dateTime);
+            foreach (var item in ItemsVM)
+            {
+                Items.Children.Add(new UserControls.Item(item));
+            }
+
+            TotalCountTasks.Text = await _itemsService.GetTotalItemsOnDateAsync(dateTime);
+            LeftCountTasks.Text = await _itemsService.GetLeftItemsOnDateAsync(dateTime);
+
+            TxtNote.Text = string.Empty;
+            TxtTime.Text = string.Empty;
+
         }
     }
 }
