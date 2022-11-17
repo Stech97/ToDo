@@ -1,0 +1,1 @@
+﻿Для корректной работы установите подключение к БД в appsettings.json в разделе ConnectionStrings["DefaultConnection"]
