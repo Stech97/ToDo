@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:us="clr-namespace:ToDo.UserControls"
         FontFamily="Trebuchet MS" mc:Ignorable="d" WindowStartupLocation="CenterScreen" WindowStyle="None" 
         AllowsTransparency="True" Background="Transparent" Height="768" Width="1024">
 
@@ -22,7 +21,6 @@
             </Grid.ColumnDefinitions>
 
             <Border CornerRadius="20 0 0 20" Background="#FEFEFE" Grid.ColumnSpan="3" Margin="0,0,409,0"/>
-
             <Border CornerRadius="0 20 20 0" MouseDown="Border_MouseDown" Grid.Column="2" Background="#0d6efd"/>
         </Grid>
 
@@ -112,7 +110,6 @@
                                 <TextBlock x:Name="LblTime" MouseDown="LblTime_MouseDown" Text="_ _ : _ _  -  _ _ : _ _" Style="{StaticResource textHint}"/>
                                 <TextBox Name="TxtTime" TextChanged="TxtTime_TextChanged" Style="{StaticResource textBox}"/>
                             </Grid>
-
                         </StackPanel>
 
                         <Button x:Name="AddItem" Style="{StaticResource button}" Grid.Column="1" Click="AddItem_Click">
@@ -122,9 +119,7 @@
                 </Border>
 
                 <StackPanel x:Name="Items" />
-
             </StackPanel>
         </Grid>
-
     </Grid>
 </Window>

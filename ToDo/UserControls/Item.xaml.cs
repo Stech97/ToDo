@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using ToDo.Common;
+using ToDoBL.Interface;
 
 namespace ToDo.UserControls
 {
@@ -9,10 +11,11 @@ namespace ToDo.UserControls
     {
         public ItemVM ItemVM { get; set; }
 
-        public Item(ItemVM itemVM)
+        public Item(ItemVM itemVM, IItemsService itemsService)
         {
             ItemVM = itemVM;
             InitializeComponent();
+            DataContext = new MenuButtonViewModel(itemsService);
         }
 
         public string Title

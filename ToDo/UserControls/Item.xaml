@@ -21,7 +21,6 @@
 
             <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
                 <fa:ImageAwesome Grid.Column="2" Icon="{Binding ItemVM.IconBell,ElementName=item}" Width="12" Height="12" Foreground="{Binding ItemVM.Color,ElementName=item}"/>
-
                 <TextBlock FontSize="12" Foreground="{Binding ItemVM.Color,ElementName=item}" Text="{Binding ItemVM.Time,ElementName=item}" Margin="8 0 0 0"/>
             </StackPanel>
         </StackPanel>
@@ -51,12 +50,9 @@
         <Popup IsOpen="{Binding IsChecked, ElementName=btnMenu}" AllowsTransparency="True" StaysOpen="False" PlacementTarget="{Binding ElementName=btnMenu}" Placement="Left" VerticalOffset="30" HorizontalOffset="15">
             <Border Background="White" CornerRadius="5" Padding="0 4">
                 <StackPanel>
-
-                    <local:MenuButton Icon="Check" Caption="Check"/>
-                    <local:MenuButton Icon="BellSlash" Caption="Mute"/>
-                    <local:MenuButton Icon="Pencil" Caption="Edit"/>
-                    <local:MenuButton Icon="Trash" Caption="Delete"/>
-
+                    <local:MenuButton Icon="Check" Caption="Выполнено" Command="{Binding DoneCommand}" CommandParameter="{Binding ElementName=item}"/>
+                    <local:MenuButton Icon="BellSlash" Caption="Не уведолять" Command="{Binding ChangeCommand}" CommandParameter="{Binding ElementName=item}"/>               
+                    <local:MenuButton Icon="Trash" Caption="Удалить" Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=item}"/>
                 </StackPanel>
             </Border>
         </Popup>

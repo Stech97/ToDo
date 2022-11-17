@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace ToDo
+namespace ToDo.Common
 {
     public class ToDoContextFactory : IDesignTimeDbContextFactory<RepositoryToDoItemsContext>
     {

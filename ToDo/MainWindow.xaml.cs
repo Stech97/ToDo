@@ -23,27 +23,27 @@ namespace ToDo
             InitializeComponent();
             InitStaticData();
             InitData();
-            //DispatcherTimer = new DispatcherTimer();
-            //DispatcherTimer.Tick += new EventHandler(DispatcherTimer_Tick);
-            //DispatcherTimer.Interval = new TimeSpan(0, 0, 30);
-            //DispatcherTimer.Start();
+            DispatcherTimer = new DispatcherTimer();
+            DispatcherTimer.Tick += new EventHandler(DispatcherTimer_Tick);
+            DispatcherTimer.Interval = new TimeSpan(0, 5, 0);
+            DispatcherTimer.Start();
         }
 
-        private async void DispatcherTimer_Tick(object sender, EventArgs e)
+        private /*async*/ void DispatcherTimer_Tick(object sender, EventArgs e)
         {
             InitData();
 
-            var notificationManager = new NotificationManager();
+            //var notificationManager = new NotificationManager();
 
-            await notificationManager.ShowAsync(new NotificationContent
-            {
-                Title = "Sample notification",
-                Message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                Type = NotificationType.Information
-            });
+            //await notificationManager.ShowAsync(new NotificationContent
+            //{
+            //    Title = "Sample notification",
+            //    Message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            //    Type = NotificationType.Information
+            //});
         }
 
-        #region inparentProject
+        #region Event
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -75,7 +75,6 @@ namespace ToDo
             else
                 LblTime.Visibility = Visibility.Visible;
         }
-        #endregion
 
         private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -137,6 +136,7 @@ namespace ToDo
                 MessageBox.Show("При добавлении заметки возникли ошибки", "Ошибка при добавление заметки", MessageBoxButton.OK);
 
         }
+        #endregion
 
 
         private void InitStaticData()
@@ -226,13 +226,13 @@ namespace ToDo
             ButtonYears.FirstOrDefault(x => (int)x.Content == dateTime.Year).Foreground = new SolidColorBrush(Color.FromRgb(13, 110, 253));
         }
 
-        private async void GetItems(DateTime dateTime)
+        public async void GetItems(DateTime dateTime)
         {
             Items.Children.Clear();
             var ItemsVM = await _itemsService.GetItemsByDateAsync(dateTime);
             foreach (var item in ItemsVM)
             {
-                Items.Children.Add(new UserControls.Item(item));
+                Items.Children.Add(new UserControls.Item(item, _itemsService));
             }
 
             TotalCountTasks.Text = await _itemsService.GetTotalItemsOnDateAsync(dateTime);

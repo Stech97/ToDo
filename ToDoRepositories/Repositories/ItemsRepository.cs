@@ -33,7 +33,7 @@ namespace ToDoRepositories.Repositories
         public async Task<int> GetTotalIntemsOnDateAsync(DateTime Date)
         {
             _logger.LogInformation($"Получаю количество задач из БД на дату: {Date:D}");
-            try 
+            try
             {
                 using var context = ContextFactory.CreateDbContextMSSqlEFCore<RepositoryToDoItemsContext>(ConnectionString);
                 return await context.Items.Where(x => x.Date.Date == Date.Date).CountAsync();
@@ -59,30 +59,67 @@ namespace ToDoRepositories.Repositories
             }
         }
 
+        public async Task<Item> GetItemByParametrsAsync(Item item)
+        {
+            _logger.LogInformation($"Получаю задачи по параметрам");
+            try
+            {
+                using var context = ContextFactory.CreateDbContextMSSqlEFCore<RepositoryToDoItemsContext>(ConnectionString);
+                return await context.Items.FirstOrDefaultAsync(x => x.Title == item.Title && x.Date == item.Date.Date && x.TimeStart == item.TimeStart);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Не удалось получить задачи по параметрам. Ошибка: {e.Message} Стек:{e.StackTrace}");
+                throw;
+            }
+        }
+
         public async Task<bool> AddItemAsync(Item Item)
         {
             _logger.LogInformation($"Добавляю новую задачу в БД");
             try
             {
                 using var context = ContextFactory.CreateDbContextMSSqlEFCore<RepositoryToDoItemsContext>(ConnectionString);
-
-                var ItemDTO = context.Items.FirstOrDefault(x => x.Title == Item.Title && x.Date == Item.Date && x.TimeStart == Item.TimeStart && x.TimeEnd == Item.TimeEnd);
-                if (ItemDTO is null)
-                {
-                    await context.Items.AddAsync(Item);
-                    await context.SaveChangesAsync();
-                    _logger.LogInformation("Задача добавлена в БД");
-                    return true;
-                }
-                else
-                {
-                    _logger.LogWarning("Данная запись уже существует в БД");
-                    return false;
-                }
+                await context.Items.AddAsync(Item);
+                await context.SaveChangesAsync();
+                _logger.LogInformation("Задача добавлена в БД");
+                return true;
             }
             catch (Exception e)
             {
                 _logger.LogError($"Не удалось добавить задачу в БД. Ошибка: {e.Message} Стек:{e.StackTrace}");
+                throw;
+            }
+        }
+
+        public async Task UpdateItemAsync(Item Item)
+        {
+            _logger.LogInformation($"Обновляю задачу в БД");
+            try
+            {
+                using var context = ContextFactory.CreateDbContextMSSqlEFCore<RepositoryToDoItemsContext>(ConnectionString);
+                context.Items.Update(Item);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Не удалось добавить задачу в БД. Ошибка: {e.Message} Стек:{e.StackTrace}");
+                throw;
+            }
+        }
+
+        public async Task DeleteItemAsync(Item Item)
+        {
+            _logger.LogInformation($"Удаляю задачу из БД");
+            try
+            {
+                using var context = ContextFactory.CreateDbContextMSSqlEFCore<RepositoryToDoItemsContext>(ConnectionString);
+                context.Items.Remove(Item);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Не удалось удалить задачу из БД. Ошибка: {e.Message} Стек:{e.StackTrace}");
                 throw;
             }
         }

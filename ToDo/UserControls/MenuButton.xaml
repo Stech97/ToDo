@@ -6,7 +6,7 @@
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d" Name="buttonMenu">
 
-    <Button>
+    <Button Click="Button_Click">
         <Button.Style>
             <Style TargetType="Button">
                 <Setter Property="Background" Value="White" />
@@ -31,7 +31,7 @@
 
         <StackPanel Orientation="Horizontal">
             <fa:ImageAwesome Icon="{Binding Path=Icon,ElementName=buttonMenu}" Width="13" Height="13" Foreground="#666666" Margin="5 0 20 0"/>
-            <TextBlock Text="{Binding Path=Caption,ElementName=buttonMenu}" Foreground="#666666" FontSize="14"/>
+            <TextBlock Text="{Binding Path=Caption,ElementName=buttonMenu}" Foreground="#666666" FontSize="14" />
         </StackPanel>
     </Button>
 

@@ -7,5 +7,6 @@
         public string Color { get; set; }
         public string Icon { get; set; }
         public string IconBell { get; set; }
+        public DateTime Date { get; set; }
     }
 }
