@@ -2,6 +2,7 @@
 using Models;
 using Microsoft.Extensions.Logging;
 using ToDoBL.Interface;
+using Humanizer;
 
 namespace ToDoBL.Implementation
 {
@@ -66,6 +67,45 @@ namespace ToDoBL.Implementation
             return "Остолось выполнить " + count + " задач";
         }
 
+        public async Task<IEnumerable<NotifyVM>> Get15ItemsAsync()
+        {
+            _logger.LogInformation("Получаю задачи");
+            var ItemsDTO = await _itemsRepository.GetItemsByTimeStartAsync(15);
+            List<NotifyVM> ItemsVM = new();
+            foreach (var ItemDTO in ItemsDTO)
+            {
+                NotifyVM notifyVM = new()
+                {
+                    Title = ItemDTO.Title,
+                    Message = "До события осталось: " + (ItemDTO.TimeStart - DateTime.Now).Humanize(),
+                };
+
+                ItemsVM.Add(notifyVM);
+            }
+
+            _logger.LogInformation("Задачи получены");
+            return ItemsVM;
+        }
+
+        public async Task<IEnumerable<NotifyVM>> Get5ItemsAsync()
+        {
+            _logger.LogInformation("Получаю задачи");
+            var ItemsDTO = await _itemsRepository.GetItemsByTimeStartAsync(5);
+            List<NotifyVM> ItemsVM = new();
+            foreach (var ItemDTO in ItemsDTO)
+            {
+                NotifyVM notifyVM = new()
+                {
+                    Title = ItemDTO.Title,
+                    Message = "Событие скоро начнется. До начала осталось: " + (ItemDTO.TimeStart - DateTime.Now).Humanize(),
+                };
+
+                ItemsVM.Add(notifyVM);
+            }
+
+            _logger.LogInformation("Задачи получены");
+            return ItemsVM;
+        }
 
         public async Task<bool> AddItemAsync(string Title, string Time, DateTime Date)
         {

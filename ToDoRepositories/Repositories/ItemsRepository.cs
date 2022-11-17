@@ -29,6 +29,23 @@ namespace ToDoRepositories.Repositories
                 throw;
             }
         }
+        
+        public async Task<IEnumerable<Item>> GetItemsByTimeStartAsync(int TimeStart)
+        {
+            _logger.LogInformation($"Получаю задачи из БД до начала: {TimeStart}");
+            try
+            {
+                using var context = ContextFactory.CreateDbContextMSSqlEFCore<RepositoryToDoItemsContext>(ConnectionString);
+                return await context.Items
+                    .Where(x => x.Date.Date == DateTime.Now.Date && x.TimeStart >= DateTime.Now && x.TimeStart <= DateTime.Now.AddMinutes(TimeStart) && x.IsNotify)
+                    .ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Не удалось получить задачи до начала: {TimeStart}. Ошибка: {e.Message} Стек:{e.StackTrace}");
+                throw;
+            }
+        }
 
         public async Task<int> GetTotalIntemsOnDateAsync(DateTime Date)
         {

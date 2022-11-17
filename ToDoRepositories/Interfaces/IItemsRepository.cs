@@ -5,6 +5,7 @@ namespace ToDoRepositories.Interfaces
     public interface IItemsRepository
     {
         public Task<IEnumerable<Item>> GetItemsByDateOrDefaultAsync(DateTime Date);
+        public Task<IEnumerable<Item>> GetItemsByTimeStartAsync(int TimeStart);
         public Task<int> GetTotalIntemsOnDateAsync(DateTime Date);
         public Task<int> GetLeftIntemsOnDateAsync(DateTime Date);
         public Task<Item> GetItemByParametrsAsync(Item item);

@@ -25,22 +25,37 @@ namespace ToDo
             InitData();
             DispatcherTimer = new DispatcherTimer();
             DispatcherTimer.Tick += new EventHandler(DispatcherTimer_Tick);
-            DispatcherTimer.Interval = new TimeSpan(0, 5, 0);
+            DispatcherTimer.Interval = new TimeSpan(0, 1, 0);
             DispatcherTimer.Start();
         }
 
-        private /*async*/ void DispatcherTimer_Tick(object sender, EventArgs e)
+        private async void DispatcherTimer_Tick(object sender, EventArgs e)
         {
             InitData();
+            var notificationManager = new NotificationManager();
 
-            //var notificationManager = new NotificationManager();
+            var Item5 = await _itemsService.Get5ItemsAsync();
+            foreach (var item in Item5)
+            {
+                await notificationManager.ShowAsync(new NotificationContent
+                {
+                    Title = item.Title,
+                    Message = item.Message,
+                    Type = NotificationType.Warning
+                });
+            }
 
-            //await notificationManager.ShowAsync(new NotificationContent
-            //{
-            //    Title = "Sample notification",
-            //    Message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            //    Type = NotificationType.Information
-            //});
+            var Item15 = await _itemsService.Get15ItemsAsync();
+            var result15 = Item15.Except(Item5).ToList();
+            foreach (var item in result15)
+            {
+                await notificationManager.ShowAsync(new NotificationContent
+                {
+                    Title = item.Title,
+                    Message = item.Message,
+                    Type = NotificationType.Information
+                });
+            }
         }
 
         #region Event
